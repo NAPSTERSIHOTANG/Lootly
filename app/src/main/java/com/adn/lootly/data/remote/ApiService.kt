@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-private val retrofit = Retrofit.Builder().baseUrl("https://www.gamerpower.com/api/giveaways").addConverterFactory(
+private val retrofit = Retrofit.Builder().baseUrl("https://www.gamerpower.com/api/").addConverterFactory(
     GsonConverterFactory.create()).build()
 
 val giveawayService = retrofit.create(ApiService::class.java)
