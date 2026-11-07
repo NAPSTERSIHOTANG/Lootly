@@ -33,11 +33,10 @@ fun giveawayScreen(modifier: Modifier = Modifier){
         when{
             viewState.loading -> {
                 CircularProgressIndicator(modifier.align(Alignment.Center))
-//                CircularProgressIndicator(modifier)
             }
 
             viewState.error != null -> {
-                Text(text = "Error Occured")
+                Text(text = "Error Occurred")
             }
 
             else -> {

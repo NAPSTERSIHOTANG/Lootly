@@ -13,7 +13,27 @@ class MainViewModel : ViewModel(){
     val giveawayState: State<GiveawayState> = _giveawayState
 
     init {
-        fetchGiveaways()
+//        fetchGiveaways()
+        getGiveaways()
+    }
+
+    private fun getGiveaways(){
+        viewModelScope.launch {
+            try {
+                val response = giveawayService.getGiveaways()
+                _giveawayState.value = _giveawayState.value.copy(
+                    list = response,
+                    loading = false,
+                    error = null
+                )
+            }catch (e: Exception){
+                _giveawayState.value = _giveawayState.value.copy(
+                    loading = false,
+                    error = "Error fetching giveaways: ${e.message}"
+                )
+            }
+        }
+
     }
 
     private fun fetchGiveaways(
@@ -22,10 +42,11 @@ class MainViewModel : ViewModel(){
         ){
         viewModelScope.launch {
             try {
-                val response = giveawayService.filterGiveaways(platforms.toString(), type.toString())
+                val response = giveawayService.filterGiveaways(platforms, type)
                 _giveawayState.value = _giveawayState.value.copy(
                     list = response.giveaway,
-                    loading = false
+                    loading = false,
+                    error = null
                 )
             }catch (e: Exception){
                 _giveawayState.value = _giveawayState.value.copy(
