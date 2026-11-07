@@ -1,7 +1,7 @@
 package com.adn.lootly.data.remote
 
 import com.adn.lootly.data.model.Giveaway
-import com.adn.lootly.data.model.GiveawayResponse
+//import com.adn.lootly.data.model.GiveawayResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -19,11 +19,11 @@ interface ApiService {
     @GET("giveaway")
     suspend fun getGiveawayById(
         @Query("id") id: Int
-    ): GiveawayResponse
+    ): Giveaway
 
     @GET("filter")
     suspend fun filterGiveaways(
         @Query("platform") platforms: String? = null,
         @Query("type") types: String? = null
-    ): GiveawayResponse
+    ): List<Giveaway>
 }

@@ -16,4 +16,4 @@ data class Giveaway(
     val open_giveaway: String
 )
 
-data class GiveawayResponse(val giveaway: List<Giveaway>)
+//data class GiveawayResponse(val giveaway: List<Giveaway>)

@@ -44,7 +44,7 @@ class MainViewModel : ViewModel(){
             try {
                 val response = giveawayService.filterGiveaways(platforms, type)
                 _giveawayState.value = _giveawayState.value.copy(
-                    list = response.giveaway,
+                    list = response,
                     loading = false,
                     error = null
                 )
