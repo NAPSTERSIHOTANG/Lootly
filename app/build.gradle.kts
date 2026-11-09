@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    kotlin("plugin.serialization") version "2.2.10"   // samakan dengan versi Kotlin-mu
 }
 
 android {
@@ -38,6 +39,8 @@ android {
 }
 
 dependencies {
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     //compose viewMOdel
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
