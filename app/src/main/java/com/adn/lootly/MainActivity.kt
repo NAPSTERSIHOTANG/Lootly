@@ -11,8 +11,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.adn.lootly.data.loadGiveaways
+import com.adn.lootly.ui.model.FeedUiState
+import com.adn.lootly.ui.model.toEntity
+import com.adn.lootly.ui.screen.FeedScreen
 import com.adn.lootly.ui.screen.giveawayScreen
 import com.adn.lootly.ui.theme.LootlyTheme
 
@@ -23,7 +29,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             LootlyTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    giveawayScreen()
+                    val context = LocalContext.current
+                    val items = remember { loadGiveaways(context).map { it.toEntity() } }
+                    FeedScreen(
+                        state = FeedUiState(items = items),
+                        onQueryChange = {},
+                        onPlatformToggle = {},
+                        onItemClick = {},
+                        modifier = Modifier
+                    )
                 }
             }
         }
