@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    kotlin("plugin.serialization") version "2.2.10"   // samakan dengan versi Kotlin-mu
+    alias(libs.plugins.kotlin.serialization)  // samakan dengan versi Kotlin-mu
 }
 
 android {
