@@ -21,7 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
-import com.adn.lootly.data.model.Giveaway
+import com.adn.lootly.data.model.GiveawayResponse
+import com.adn.lootly.ui.model.GiveawayUi
 import com.adn.lootly.ui.viewmodel.MainViewModel
 
 @Composable
@@ -47,7 +48,7 @@ fun giveawayScreen(modifier: Modifier = Modifier){
 }
 
 @Composable
-fun GiveawayScreen(giveaway: List<Giveaway>){
+fun GiveawayScreen(giveaway: List<GiveawayUi>){
     LazyVerticalGrid(GridCells.Fixed(2), modifier = Modifier.fillMaxSize()) {
         items(giveaway){
                 giveaway ->
@@ -57,15 +58,15 @@ fun GiveawayScreen(giveaway: List<Giveaway>){
 }
 
 @Composable
-fun GiveawayItem(giveaway: Giveaway){
+fun GiveawayItem(giveaway: GiveawayUi){
     Column(
         modifier = Modifier.padding(8.dp).fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(painter = rememberAsyncImagePainter(giveaway.image),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize().aspectRatio(1f)
-        )
+//        Image(painter = rememberAsyncImagePainter(giveaway.image),
+//            contentDescription = null,
+//            modifier = Modifier.fillMaxSize().aspectRatio(1f)
+//        )
         Text(
             text = giveaway.title,
             color = Color.Black,

@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     //compose viewMOdel
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")

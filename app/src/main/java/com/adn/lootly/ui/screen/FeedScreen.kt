@@ -1,37 +1,92 @@
 package com.adn.lootly.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.adn.lootly.data.loadGiveaways
 import com.adn.lootly.ui.components.GiveawayRow
 import com.adn.lootly.ui.model.FeedUiState
 import com.adn.lootly.ui.theme.LootlyTheme
+import com.adn.lootly.ui.viewmodel.FeedViewModel
 
 @Composable
 fun FeedScreen(
     state: FeedUiState,
     onQueryChange: (String) -> Unit,
     onPlatformToggle: (String) -> Unit,
+    onTypeToggle: (String) -> Unit,
     onItemClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ){
-    LazyColumn(
+    when(state){
+        FeedUiState.Loading -> Box(modifier.fillMaxSize(), Alignment.Center) {
+            CircularProgressIndicator()
+        }
+
+        FeedUiState.Empty -> Box(modifier.fillMaxSize(), Alignment.Center) {
+            Text("Tidak ada giveaway yang cocok")
+        }
+
+        is FeedUiState.Error -> Box(modifier.fillMaxSize(), Alignment.Center){
+            Text(text = state.message)
+        }
+
+        is FeedUiState.Content -> LazyColumn(
         modifier = Modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(state.items, key = { it.id }) { giveaway ->
-            GiveawayRow(
-                giveaway = giveaway,
-                onClick = { onItemClick(giveaway.id) }
-            )
+            item {
+                OutlinedTextField(
+                    value = state.query,
+                    onValueChange = onQueryChange,
+                    label = { Text("Cari") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+            item {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    state.options.forEach { option ->
+                        FilterChip(
+                            selected = option in state.platforms,
+                            onClick = { onPlatformToggle(option) },
+                            label = { Text(option) }
+                        )
+                    }
+                }
+            }
+            items(state.giveaways, key = { it.id }) { giveaway ->
+                GiveawayRow(giveaway, onClick = { onItemClick(giveaway.id) })
+            }
         }
     }
+}
+
+@Composable
+fun FeedRoute(viewModel: FeedViewModel) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    FeedScreen(
+        state = state,
+        onQueryChange = viewModel::onQueryChange,
+        onPlatformToggle = viewModel::onPlatformToggle,
+        onTypeToggle = viewModel::onTypeToggle,
+        onItemClick = {}
+    )
 }
