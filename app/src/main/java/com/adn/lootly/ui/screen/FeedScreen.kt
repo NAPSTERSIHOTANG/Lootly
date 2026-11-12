@@ -81,7 +81,7 @@ fun FeedScreen(
                 }
                 item {
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        state.types.forEach { type ->
+                        state.typeOptions.forEach { type ->
                             FilterChip(
                                 selected = type in state.types,
                                 onClick = { onTypeToggle(type) },

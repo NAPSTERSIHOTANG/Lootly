@@ -43,7 +43,8 @@ class FeedViewModel(
                     query = q,
                     platforms = p,
                     types = t,
-                    options = src.items.flatMap { it.platformList() }.distinct().sorted()
+                    options = src.items.flatMap { it.platformList() }.distinct().sorted(),
+                    typeOptions = src.items.map { it.type }.distinct().sorted()
                 )
             }
         }
@@ -65,7 +66,7 @@ class FeedViewModel(
     }
     fun onQueryChange(value: String) { query.value = value }
     fun onPlatformToggle(name: String) { platforms.update { it.toggle(name) } }
-    fun onTypeToggle(name: String) { types.update { it.toggle(name) } }
+    fun onTypeToggle(type: String) { types.update { it.toggle(type) } }
 
     private fun Set<String>.toggle(value: String) =
         if (value in this) this - value else this + value

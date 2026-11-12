@@ -7,7 +7,8 @@ sealed interface FeedUiState{
         val query: String,
         val platforms: Set<String>,
         val types: Set<String>,
-        val options: List<String>
+        val options: List<String>,
+        val typeOptions: List<String>
     ) : FeedUiState
     data class Error(val message: String) : FeedUiState
 }
