@@ -13,8 +13,12 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,6 +30,9 @@ import com.adn.lootly.ui.components.GiveawayRow
 import com.adn.lootly.ui.model.FeedUiState
 import com.adn.lootly.ui.theme.LootlyTheme
 import com.adn.lootly.ui.viewmodel.FeedViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 fun FeedScreen(
@@ -55,15 +62,22 @@ fun FeedScreen(
         }
 
         is FeedUiState.Content -> {
-            state.giveaways
+            var query by remember { mutableStateOf(state.query) }
+            LaunchedEffect(state.query) {
+                snapshotFlow { query }.debounce(300).distinctUntilChanged().collectLatest {
+                    onQueryChange.invoke(it)
+                }
+            }
             LazyColumn(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 item {
                     OutlinedTextField(
-                        value = state.query,
-                        onValueChange = onQueryChange,
+                        value = query,
+                        onValueChange = {
+                            query = it
+                        },
                         label = { Text("Cari") },
                         modifier = Modifier.fillMaxWidth()
                     )
