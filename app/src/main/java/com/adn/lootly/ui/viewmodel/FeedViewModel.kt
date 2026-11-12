@@ -37,8 +37,8 @@ class FeedViewModel(
                         (p.isEmpty() || item.platformList().any { it in p }) &&
                         (t.isEmpty() || item.type in t)
                 }
-                if (filtered.isEmpty()) FeedUiState.Empty
-                else FeedUiState.Content(
+//                if (filtered.isEmpty()) FeedUiState
+                FeedUiState.Content(
                     giveaways = filtered,
                     query = q,
                     platforms = p,
