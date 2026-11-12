@@ -1,10 +1,13 @@
 package com.adn.lootly.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,6 +20,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.adn.lootly.ui.model.GiveawayUi
 import org.w3c.dom.Text
 
@@ -30,7 +34,12 @@ fun GiveawayRow(
             modifier = Modifier
                 .size(64.dp)
                 .background(MaterialTheme.colorScheme.surfaceVariant)
+        ){
+            Image(painter = rememberAsyncImagePainter(giveaway.image),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize().aspectRatio(1f)
         )
+        }
         Column(modifier = Modifier.padding(start = 12.dp)) {
             Text(text = giveaway.title, fontWeight = FontWeight.Bold)
             Text(text = giveaway.worth)

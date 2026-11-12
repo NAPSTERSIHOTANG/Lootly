@@ -7,7 +7,8 @@ data class GiveawayUi(
     val title: String,
     val worth: String,
     val platforms: String,
-    val type: String
+    val type: String,
+    val image: String
 )
 
 fun GiveawayResponse.toEntity(): GiveawayUi{
@@ -16,6 +17,7 @@ fun GiveawayResponse.toEntity(): GiveawayUi{
         title = this.title ?: "untitle",
         worth = this.worth ?: "-",
         platforms = this.platforms ?: "No platform",
-        type = this.type.orEmpty()
+        type = this.type.orEmpty(),
+        image = this.image ?: "No Image"
     )
 }
