@@ -4,8 +4,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.adn.lootly.data.model.Giveaway
+import com.adn.lootly.data.model.GiveawayResponse
 import com.adn.lootly.data.remote.giveawayService
+import com.adn.lootly.ui.model.GiveawayUi
+import com.adn.lootly.ui.model.toEntity
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel(){
@@ -22,7 +24,7 @@ class MainViewModel : ViewModel(){
             try {
                 val response = giveawayService.getGiveaways()
                 _giveawayState.value = _giveawayState.value.copy(
-                    list = response,
+                    list = response.map { it.toEntity() },
                     loading = false,
                     error = null
                 )
@@ -44,7 +46,7 @@ class MainViewModel : ViewModel(){
             try {
                 val response = giveawayService.filterGiveaways(platforms, type)
                 _giveawayState.value = _giveawayState.value.copy(
-                    list = response,
+                    list = response.map { it.toEntity() },
                     loading = false,
                     error = null
                 )
@@ -61,7 +63,7 @@ class MainViewModel : ViewModel(){
 
     data class GiveawayState(
         val loading: Boolean = true,
-        val list: List<Giveaway> = emptyList(),
+        val list: List<GiveawayUi> = emptyList(),
         val error: String? = null
     )
 }
